@@ -43,8 +43,14 @@ st.markdown("""
 # Load data and analysis
 @st.cache_data
 def load_analysis():
-    analyzer = CareerProgressionAnalyzer('d:/UFO PROJECTS/Second Project/Palo Alto Networks.csv')
-    analyzer.load_data()
+    try:
+        analyzer = CareerProgressionAnalyzer('Palo Alto Networks.csv')
+        analyzer.load_data()
+    except FileNotFoundError:
+        st.error("❌ Data file 'Palo Alto Networks.csv' not found!")
+        st.info("Please ensure the CSV file is in the same directory as the app.")
+        st.stop()
+    
     analyzer.feature_engineering()
     analyzer.preprocess_data()
     
